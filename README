@@ -28,7 +28,7 @@ SYNOPSIS
 
       while ($node->key_cmp($key) < 0) {
         $node = $node->get_child(0);
-      }    
+      }
 
 DESCRIPTION
     This module implements a memory-efficient node type (for trees, skip
@@ -56,16 +56,8 @@ DESCRIPTION
 REVISION HISTORY
     The following changes have been made since the last release:
 
-    0.08  Fri 20 Jul 2007
-            - minor tweaks and typo corrections
-    
-    0.07  Fri 13 Jul 2007
-            - distro is no longer signed (due to Module:Signature issues)
-            - fixed error with reading undefined key or value
-            - added force_set_key mode to change key
-            - test for leaks in procedural interface
-            - improved pointer cast
-            - minor changes to Build.PL
+    0.09
+                - Bumped up versuin for upload to GitHub.
 
     See the Changes file for a more detailed revision history.
 
@@ -91,7 +83,6 @@ AUTHOR
     Robert Rothenberg <rrwo at cpan.org>
 
   Suggestions and Bug Reporting
-
     Feedback is always welcome. Please use the CPAN Request Tracker at
     http://rt.cpan.org to submit bug reports.
 

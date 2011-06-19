@@ -372,7 +372,7 @@ you must remember to manually destroy each pointer!
 
 The following changes have been made since the last release:
 
-=for readme include file="Changes" type="text" start="^0.08" stop="^0.06"
+=for readme include file="Changes" type="text" start="^0.09" stop="^0.08"
 
 See the F<Changes> file for a more detailed revision history.
 
