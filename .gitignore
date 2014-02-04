@@ -1,0 +1,8 @@
+MYMETA.*
+Makefile
+Node.c
+*.o
+blib/*
+*.inc
+pm_to_blib
+*~
