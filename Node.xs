@@ -158,6 +158,18 @@ get_child(n, index)
   OUTPUT:
     RETVAL
 
+
+SV*
+get_child_maybe(n, index)
+    SV* n
+    int index
+  PROTOTYPE: $$
+  CODE:
+    Node* self = SV2NODE(n);
+    RETVAL = get_child_maybe(self, index);
+  OUTPUT:
+    RETVAL
+
 SV*
 get_child_or_undef(n, index)
     SV* n
@@ -165,7 +177,7 @@ get_child_or_undef(n, index)
   PROTOTYPE: $$
   CODE:
     Node* self = SV2NODE(n);
-    RETVAL = get_child_or_undef(self, index);
+    RETVAL = get_child_maybe(self, index);
   OUTPUT:
     RETVAL
 
@@ -236,4 +248,3 @@ value(n)
     RETVAL = get_value(self);
   OUTPUT:
     RETVAL
-

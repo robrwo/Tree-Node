@@ -45,7 +45,7 @@ void DESTROY(Node* n)
 
 int child_count(Node * n)
 {
-  return n->child_count; 
+  return n->child_count;
 }
 
 SV* get_child(Node * n, int index)
@@ -56,7 +56,7 @@ SV* get_child(Node * n, int index)
   return SvREFCNT_inc(n->next[index]);
 }
 
-SV* get_child_or_undef(Node * n, int index)
+SV* get_child_maybe(Node * n, int index)
 {
   if ((index >= n->child_count) || (index < 0))
     return &PL_sv_undef;
@@ -73,6 +73,7 @@ void set_child(Node* n, int index, SV* t)
     sv_setsv(n->next[index], t);
   else
     n->next[index] = newSVsv(t);
+
 }
 
 void set_key(Node *n, SV* k)

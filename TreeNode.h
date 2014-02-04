@@ -15,7 +15,7 @@ typedef struct {
   SV*   key;
   SV*   value;
   int   child_count;
-  SV*   next[]; 
+  SV*   next[];
 } Node;
 
 Node * new(int child_count);
@@ -24,7 +24,7 @@ void DESTROY(Node * n);
 int child_count(Node * n);
 
 SV* get_child(Node * n, int index);
-SV* get_child_or_undef(Node * n, int index);
+SV* get_child_maybe(Node * n, int index);
 void set_child(Node* n, int index, SV* t);
 
 void set_key(Node *n, SV* k);
