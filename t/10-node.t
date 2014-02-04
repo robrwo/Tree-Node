@@ -1,9 +1,6 @@
 #!/usr/bin/perl
 
-use strict;
-use warnings;
-
-use Test::More tests => 59;
+use Test::Most;
 
 use_ok("Tree::Node", 0.10);
 
@@ -162,3 +159,5 @@ ok(!defined $z->get_child_or_undef(6), "get_child_or_undef");
   ok($x->get_child(2) == $y);
   ok($x->get_child(3) == $z);
 }
+
+done_testing;

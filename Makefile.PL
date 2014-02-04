@@ -1,22 +1,22 @@
-use 5.006;
+use v5.10.1;
+
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME              => 'Tree::Node',
-    VERSION_FROM      => 'lib/Tree/Node.pm',
-    PREREQ_PM         => {
-      'base'                           => 0,
-      'File::Copy'                     => 0,
-      'File::Spec'                     => 0,
-      'Test::More'                     => 0,
+    NAME           => 'Tree::Node',
+    VERSION_FROM   => 'lib/Tree/Node.pm',
+    PREREQ_PM      => {
+      'base'       => 0,
+      'File::Copy' => 0,
+      'File::Spec' => 0,
+      'Test::Most' => 0,
     },
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'lib/Tree/Node.pm', # retrieve abstract from module
-       AUTHOR         => 'Robert Rothenberg <rrwo at cpan.org>') : ()),
-    LIBS              => [''], # e.g., '-lm'
-    DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
-    INC               => '-I.', # e.g., '-I. -I/usr/include/other'
-    OBJECT            => '$(O_FILES)',
+    ABSTRACT_FROM  => 'lib/Tree/Node.pm', # retrieve abstract from module
+    AUTHOR         => 'Robert Rothenberg <rrwo at cpan.org>',
+    LIBS           => [''],  # e.g., '-lm'
+    DEFINE         => '',    # e.g., '-DHAVE_SOMETHING'
+    INC            => '-I.', # e.g., '-I. -I/usr/include/other'
+    OBJECT         => '$(O_FILES)',
 );
 if  (eval {require ExtUtils::Constant; 1}) {
   my @names = (qw());
