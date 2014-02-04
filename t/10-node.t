@@ -15,7 +15,6 @@ my $x = Tree::Node->new($size);
 
 ok(defined $x, "defined");
 ok($x->isa("Tree::Node"), "isa");
-ok($x->to_p_node != 0, "to_p");
 
 ok(!defined $x->key);
 ok(!defined $x->value);

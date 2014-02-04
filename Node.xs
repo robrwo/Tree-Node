@@ -38,27 +38,6 @@ new(package, child_count)
   OUTPUT:
     RETVAL
 
-IV
-to_p_node(n)
-    SV* n
-  PROTOTYPE: $
-  CODE:
-    RETVAL = (IV) SV2NODE(n);
-  OUTPUT:
-    RETVAL
-
-IV
-p_new(child_count)
-    int  child_count
-  PROTOTYPE: $$
-  CODE:
-    Node* self = new(child_count);
-    while (child_count--)
-      self->next[child_count] = NULL;
-    RETVAL = (IV) self;
-  OUTPUT:
-    RETVAL
-
 void
 DESTROY(n)
     SV* n
@@ -69,13 +48,6 @@ DESTROY(n)
     while (child_count--)
       SvREFCNT_dec(self->next[child_count]);
     DESTROY(self);
-
-void
-p_destroy(self)
-    IV self
-  PROTOTYPE: $
-  CODE:
-    if (self) DESTROY(IV2NODE(self));
 
 int
 MAX_LEVEL()
@@ -103,16 +75,6 @@ _allocated(n)
     RETVAL = _allocated(self);
   OUTPUT:
     RETVAL
-
-int
-p_allocated(n)
-    IV n
-  PROTOTYPE: $
-  CODE:
-    RETVAL = _allocated(IV2NODE(n));
-  OUTPUT:
-    RETVAL
-
 
 void
 add_children(n, ...)
@@ -173,15 +135,6 @@ child_count(n)
   OUTPUT:
     RETVAL
 
-int
-p_child_count(self)
-    IV self;
-  PROTOTYPE: $
-  CODE:
-    RETVAL = child_count(IV2NODE(self));
-  OUTPUT:
-    RETVAL
-
 void
 get_children(n)
     SV* n
@@ -205,34 +158,6 @@ get_child(n, index)
   OUTPUT:
     RETVAL
 
-IV
-p_get_child(n, index);
-    IV n;
-    int index
-  PROTOTYPE: $$
-  CODE:
-    Node* self = IV2NODE(n);
-    if ((index >= self->child_count) || (index < 0))
-      croak("index out of bounds: must be between [0..%d]", self->child_count-1);
-    RETVAL = (IV) self->next[index];
-  OUTPUT:
-    RETVAL
-
-IV
-p_get_child_or_null(n, index);
-    IV n;
-    int index
-  PROTOTYPE: $$
-  CODE:
-    Node* self = IV2NODE(n);
-    if ((index >= self->child_count) || (index < 0))
-      RETVAL = (IV) NULL;
-    else
-      RETVAL = (IV) self->next[index];
-  OUTPUT:
-    RETVAL
-
-
 SV*
 get_child_or_undef(n, index)
     SV* n
@@ -255,18 +180,6 @@ set_child(n, index, t)
     set_child(self, index, t);
 
 void
-p_set_child(n, index, t)
-    IV n
-    int index
-    IV t
-  PROTOTYPE: $$$
-  CODE:
-    Node* self = IV2NODE(n);
-    if ((index >= self->child_count) || (index < 0))
-      croak("index out of bounds: must be between [0..%d]", self->child_count-1);
-    self->next[index] = (SV*) t;
-
-void
 set_key(n, k)
     SV* n
     SV* k
@@ -284,22 +197,6 @@ force_set_key(n, k)
     Node* self = SV2NODE(n);
     force_set_key(self, k);
 
-void
-p_set_key(n, k)
-    IV n
-    SV* k
-  PROTOTYPE: $$
-  CODE:
-    set_key(IV2NODE(n), k);
-
-void
-p_force_set_key(n, k)
-    IV n
-    SV* k
-  PROTOTYPE: $$
-  CODE:
-    force_set_key(IV2NODE(n), k);
-
 SV*
 key(n)
     SV* n
@@ -307,25 +204,6 @@ key(n)
   CODE:
     Node* self = SV2NODE(n);
     RETVAL = get_key(self);
-  OUTPUT:
-    RETVAL
-
-SV*
-p_get_key(n)
-    IV n
-  PROTOTYPE: $
-  CODE:
-    RETVAL = get_key(IV2NODE(n));
-  OUTPUT:
-    RETVAL
-
-I32
-p_key_cmp(n, k)
-    IV n
-    SV* k
-  PROTOTYPE: $$
-  CODE:
-    RETVAL = key_cmp(IV2NODE(n), k);
   OUTPUT:
     RETVAL
 
@@ -349,14 +227,6 @@ set_value(n, v)
     Node* self = SV2NODE(n);
     set_value(self, v);
 
-void
-p_set_value(n, v)
-    IV n
-    SV* v
-  PROTOTYPE: $$
-  CODE:
-    set_value(IV2NODE(n), v);
-
 SV*
 value(n)
     SV* n
@@ -367,11 +237,3 @@ value(n)
   OUTPUT:
     RETVAL
 
-SV*
-p_get_value(n)
-    IV n
-  PROTOTYPE: $
-  CODE:
-    RETVAL = get_value(IV2NODE(n));
-  OUTPUT:
-    RETVAL
