@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More tests => 59;
 
-use_ok("Tree::Node", 0.08);
+use_ok("Tree::Node", 0.10);
 
 # for(1..16) {
 #   print STDERR "\x23 ",
@@ -116,7 +116,7 @@ ok(!defined $z->get_child_or_undef(6), "get_child_or_undef");
   $size = $x->child_count; # so later tests pass
   @c = $x->get_children;
   is(@c, $size);
-} 
+}
 
 {
   my @c = $x->get_children;
@@ -145,7 +145,7 @@ ok(!defined $z->get_child_or_undef(6), "get_child_or_undef");
   is(@c, $size);
   ok($x->get_child(0) == $y);
   ok($x->get_child(1) == $z);
-} 
+}
 
 {
   my @c = $x->get_children;

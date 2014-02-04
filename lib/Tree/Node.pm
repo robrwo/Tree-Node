@@ -9,28 +9,9 @@ our $VERSION = '0.10';
 require XSLoader;
 XSLoader::load('Tree::Node', $VERSION);
 
-require Exporter;
+use Exporter::Lite;
 
-our @ISA = qw( Exporter );
-
-our %EXPORT_TAGS = (
-  'p_node' => [qw(
-    p_new p_destroy p_allocated
-    p_child_count p_get_child p_get_child_or_null p_set_child
-    p_set_key p_force_set_key p_get_key p_key_cmp
-    p_set_value p_get_value
-  )],
-  'utility' => [qw(
-    _allocated_by_child_count MAX_LEVEL
-  )],
-);
-$EXPORT_TAGS{'all'} = [
- @{ $EXPORT_TAGS{'p_node'} },
- @{ $EXPORT_TAGS{'utility'} }
-];
-our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-our @EXPORT    = ( );
-
+our @EXPORT = (qw/ MAX_LEVEL /);
 
 1;
 __END__
@@ -238,11 +219,6 @@ the beginning rather than end of the node list.
 
 =item MAX_LEVEL
 
-  use Tree::Node ':utility';
-
-  ...
-
-  $max = MAX_LEVEL;
 
 Returns the maximum number of children. Defaults to the C constant
 C<UCHAR_MAX>, which is usually 255.
@@ -265,104 +241,12 @@ node.  It does not include the Perl overhead (see L</KNOWN ISSUES> below).
 This is a utility routine which returns the amount of space that would be
 allocated for a node with C<$child_count> children.
 
-=item to_p_node
-
-  $ptr = $node->to_p_node;
-
-This returns the pointer to the raw node data, which can be used in
-the L</Procedural Interface>.
-
-B<Warning>: do not mix and match object-oriented and procedural interface
-calls when reading child nodes!  Child node pointers are stored in an
-incompatible format.
-
 =back
 
 =head2 Procedural Inferface
 
-The experimental procedural interface was added in version 0.06.  The
-advantage of this interface is that there is much less overhead than the
-object-oriented interface (16 bytes instead of 45 bytes).  A disadvantage
-is that the node cannot be simply subclassed to change the L</p_key_cmp>
-function.
-
-To use the procedural interface, you must import the procedure names:
-
-  use Tree::Node ':p_node';
-
-Aside from working with pointers rather than blessed objects, the
-procedures listed below are analagous to their object-oriented
-counterparts.
-
-However, you must manually call L</p_destroy> when you are done with
-the node, since Perl will not automatically destroy it when done.
-
-=over
-
-=item p_new
-
-  $ptr = p_new( $child_count );
-
-=item p_child_count
-
-  $child_count = p_child_count( $ptr );
-
-=item p_set_child
-
-  p_set_child( $mother_ptr, $index, $daughter_ptr );
-
-=item p_get_child
-
-  $daughter_ptr = p_get_child( $mother_ptr, $index );
-
-=item p_get_child_or_null
-
-  $daughter_ptr = p_get_child_or_null( $mother_ptr, $index );
-
-=item p_set_key
-
-  p_set_key( $ptr, $key );
-
-See L</to_p_node> for caveats about mixing interfaces.
-
-=item p_force_set_key
-
-  p_force_set_key( $ptr, $key );
-
-See L</to_p_node> for caveats about mixing interfaces.
-
-=item p_get_key
-
-  $key = p_get_key( $ptr );
-
-See L</to_p_node> for caveats about mixing interfaces.
-
-=item p_key_cmp
-
-  if (p_key_cmp( $ptr, $key ) < 0) { ... }
-
-See L</key_cmp> for caveats about mixing interfaces.
-
-=item p_set_value
-
-  p_set_value( $ptr, $value );
-
-=item p_get_value
-
-  $value = p_get_value( $ptr );
-
-=item p_allocated
-
-  $size = p_allocated($ptr);
-
-=item p_destroy
-
-  p_destroy($ptr);
-
-This unallocates the memory.  Perl will not call this automatically, so
-you must remember to manually destroy each pointer!
-
-=back
+The experimental procedural interface was added in version 0.06 and
+removed in version 0.10.
 
 =for readme continue
 
@@ -372,7 +256,7 @@ you must remember to manually destroy each pointer!
 
 The following changes have been made since the last release:
 
-=for readme include file="Changes" type="text" start="^0.09" stop="^0.08"
+=for readme include file="Changes" type="text" start="^0.10" stop="^0.08"
 
 See the F<Changes> file for a more detailed revision history.
 
@@ -423,7 +307,7 @@ L<http://rt.cpan.org> to submit bug reports.
 
 =head1 LICENSE
 
-Copyright (c) 2005,2007 Robert Rothenberg. All rights reserved.
+Copyright (c) 2005-2014 Robert Rothenberg. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
