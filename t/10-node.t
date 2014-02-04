@@ -19,34 +19,32 @@ is($x->key_cmp("bo"), -1, "key is less than anything");
 is( $x->set_key("poo")->key, "poo", "set_key->key" );
 is( $x->set_value("bar")->value, "bar", "set_value->value" );
 
-eval { $x->set_key("foo"); };
-ok($@);
-ok($x->key ne "foo");
+throws_ok(
+    sub {
+        $x->set_key("foo");
+    },
+    qr/key is already set/,
+    "set_key (write once)"
+);
 
-$x->force_set_key("foo");
-ok($x->key eq "foo");
+isnt($x->key, "foo", "key unchanged");
 
-ok($x->child_count == $size, "level == size");
-ok($x->_allocated == Tree::Node::_allocated_by_child_count($size),
+ok($x->force_set_key("foo"), "force_set_key");
+is($x->key, "foo", "key changed");
+
+is($x->child_count, $size, "level == size");
+is($x->_allocated, Tree::Node::_allocated_by_child_count($size),
  "_allocated \& size");
-
-
-my $y = Tree::Node->new(2);
-$y->set_key("moo");
-
-ok(defined $y, "defined");
-ok($y->isa("Tree::Node"), "isa");
-
-# Dump($x);
-ok($x->key eq "foo", "key");
-eval { $x->set_key("moo"); };
-ok($x->key() ne "moo");
-
 
 ok($x->key_cmp("monkey") == -1);
 ok($x->key_cmp("foo") == 0);
 ok($x->key_cmp("bar") == 1);
 ok($x->key_cmp(undef) == 1);
+
+ok(my $y = Tree::Node->new(2), "new");
+isa_ok($y, "Tree::Node");
+ok($y->set_key("moo"), "set_key");
+
 
 $x->set_value(1);
 ok($x->value == 1);
