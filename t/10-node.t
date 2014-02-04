@@ -19,10 +19,10 @@ isa_ok($x, 'Tree::Node');
 ok(!defined $x->key, "no key");
 ok(!defined $x->value, "no value");
 
-ok($x->key_cmp("bo") == -1, "key is less than anything");
+is($x->key_cmp("bo"), -1, "key is less than anything");
 
-$x->set_key("poo");
-$x->set_value("bar");
+is( $x->set_key("poo")->key, "poo", "set_key->key" );
+is( $x->set_value("bar")->value, "bar", "set_value->value" );
 
 eval { $x->set_key("foo"); };
 ok($@);
@@ -58,8 +58,6 @@ ok($x->value == 1);
 $x->set_value(2);
 ok($x->value == 2);
 
-# print STDERR "\n\x23 allocated $size = ", $x->_allocated, "\n";
-
 ok($y->child_count == 2, "level == 2");
 
 ok(!defined $y->get_child(0), "!defined y->get_child(0)");
@@ -87,7 +85,7 @@ for (0..5) {
     $z->set_child($_, $x);
     is($z->get_child($_), $x, "get_child == set_child");
 }
-ok($z->child_count == 6);
+is($z->child_count, 6, "child count");
 
 $y->set_child(0, $z);
 ok($y->get_child(0) == $z);

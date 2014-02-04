@@ -181,7 +181,7 @@ get_child_or_undef(n, index)
   OUTPUT:
     RETVAL
 
-void
+SV*
 set_child(n, index, t)
     SV* n
     int index
@@ -190,8 +190,11 @@ set_child(n, index, t)
   CODE:
     Node* self = SV2NODE(n);
     set_child(self, index, t);
+    RETVAL = SvREFCNT_inc(n);
+  OUTPUT:
+    RETVAL
 
-void
+SV*
 set_key(n, k)
     SV* n
     SV* k
@@ -199,8 +202,11 @@ set_key(n, k)
   CODE:
     Node* self = SV2NODE(n);
     set_key(self, k);
+    RETVAL = SvREFCNT_inc(n);
+  OUTPUT:
+    RETVAL
 
-void
+SV*
 force_set_key(n, k)
     SV* n
     SV* k
@@ -208,6 +214,9 @@ force_set_key(n, k)
   CODE:
     Node* self = SV2NODE(n);
     force_set_key(self, k);
+    RETVAL = SvREFCNT_inc(n);
+  OUTPUT:
+    RETVAL
 
 SV*
 key(n)
@@ -230,7 +239,7 @@ key_cmp(n, k)
   OUTPUT:
     RETVAL
 
-void
+SV*
 set_value(n, v)
     SV* n
     SV* v
@@ -238,6 +247,9 @@ set_value(n, v)
   CODE:
     Node* self = SV2NODE(n);
     set_value(self, v);
+    RETVAL = SvREFCNT_inc(n);
+  OUTPUT:
+    RETVAL
 
 SV*
 value(n)
