@@ -2,8 +2,8 @@ Revision history for Perl extension Tree::Node.
 
 0.10
 
-        - The set_key, force_set_key, set_value and set_child methods
-          are chainable.
+        - The set_key, force_set_key, set_value, set_child, and
+          add_children methods are chainable.
 
         - Renamed get_child_or_undef to get_child_maybe. Original
           method exists as an alias, but is deprecated.

@@ -76,7 +76,7 @@ _allocated(n)
   OUTPUT:
     RETVAL
 
-void
+SV*
 add_children(n, ...)
     SV* n
   ALIAS:
@@ -124,6 +124,9 @@ add_children(n, ...)
       for(i=0; i<num; i++)
         self->next[i] = newSVsv(ST(i+1));
     }
+    RETVAL = SvREFCNT_inc(n);
+  OUTPUT:
+    RETVAL
 
 int
 child_count(n)
