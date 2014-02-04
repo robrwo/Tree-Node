@@ -11,15 +11,15 @@ use_ok("Tree::Node", 0.10);
 
 my $size = 10;
 
-my $x = Tree::Node->new($size);
+ok(my $x = Tree::Node->new($size), "new");
 
 ok(defined $x, "defined");
-ok($x->isa("Tree::Node"), "isa");
+isa_ok($x, 'Tree::Node');
 
-ok(!defined $x->key);
-ok(!defined $x->value);
+ok(!defined $x->key, "no key");
+ok(!defined $x->value, "no value");
 
-ok($x->key_cmp("bo") == -1);
+ok($x->key_cmp("bo") == -1, "key is less than anything");
 
 $x->set_key("poo");
 $x->set_value("bar");
@@ -83,8 +83,12 @@ ok($x->child_count);
 
 $z = Tree::Node->new(6);
 $z->set_key("zzz");
-for (0..5) { $z->set_child($_, $x); }
+for (0..5) {
+    $z->set_child($_, $x);
+    is($z->get_child($_), $x, "get_child == set_child");
+}
 ok($z->child_count == 6);
+
 $y->set_child(0, $z);
 ok($y->get_child(0) == $z);
 ok($y->get_child(0) != $x);
@@ -92,11 +96,13 @@ ok($y->get_child(0) != $x);
 undef $@ ;
 eval { $z->get_child(-1); };
 ok($@, "get_child out of bounds");
+ok(!defined $z->get_child_maybe(-1), "get_child_maybe");
 ok(!defined $z->get_child_or_undef(-1), "get_child_or_undef");
 
 undef $@ ;
 eval { $z->get_child(6); };
 ok($@, "get_child out of bounds");
+ok(!defined $z->get_child_maybe(6), "get_child_maybe");
 ok(!defined $z->get_child_or_undef(6), "get_child_or_undef");
 
 # use Devel::Peek;
