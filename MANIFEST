@@ -12,15 +12,13 @@ t/10-node.t
 t/11-node-base.t
 t/11-node-isa.t
 t/20-lowlevel.t
-t/80-leak.t
-t/82-leak.t
-t/90-fileport.t
-t/90-pod.t
-t/90-pod-cover.t
-fallback/const-c.inc
-fallback/const-xs.inc
 lib/Tree/Node.pm
 TreeNode.c
 TreeNode.h
 typemap
+xt/80-leak.t
+xt/82-leak.t
+xt/90-fileport.t
+xt/90-pod.t
+xt/90-pod-cover.t
 
