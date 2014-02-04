@@ -4,11 +4,6 @@ use Test::Most;
 
 use_ok("Tree::Node", 0.10);
 
-# for(1..16) {
-#   print STDERR "\x23 ",
-#     sprintf("%4d %4d", $_, Tree::Node::_level_allocated($_)), "\n";
-# }
-
 my $size = 10;
 
 ok(my $x = Tree::Node->new($size), "new");
