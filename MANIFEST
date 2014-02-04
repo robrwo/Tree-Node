@@ -11,8 +11,6 @@ README
 t/00-compile.t
 t/10-node.t
 t/11-node-base.t
-t/11-node-isa.t
-t/20-lowlevel.t
 lib/Tree/Node.pm
 TreeNode.c
 TreeNode.h
