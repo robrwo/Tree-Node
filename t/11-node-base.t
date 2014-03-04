@@ -15,14 +15,7 @@ package main;
 use strict;
 use warnings;
 
-use Test::More tests => 30;
-
-# use_ok("Tree::Node");
-
-# for(1..16) {
-#   print STDERR "\x23 ",
-#     sprintf("%4d %4d", $_, Tree::Node::_level_allocated($_)), "\n";
-# }
+use Test::Most;
 
 my $size = 10;
 
@@ -31,36 +24,32 @@ $x->set_key("foo");
 $x->set_value("bar");
 
 ok(defined $x, "defined");
-ok($x->isa("Tree::Node"), "isa");
+isa_ok($x, "Tree::Node");
 
-ok($x->child_count == $size, "level == size");
-# ok($x->_allocated == Tree::Node::_allocated_by_child_count($size),
-#  "_allocated \& size");
+is($x->child_count, $size, "level == size");
 
 my $y = Inherited->new(2);
 $y->set_key("moo");
 
 ok(defined $y, "defined");
-ok($y->isa("Tree::Node"), "isa");
+isa_ok($y, "Tree::Node");
 
 ok($x->key eq "foo", "key");
-eval { $x->set_key("moo"); };
-ok($x->key() ne "moo");
+dies_ok { $x->set_key("moo"); } "key cannot be changed";
+isnt($x->key(), "moo", "key unchanged");
 
 # Note: order of inherited should be reversed
 
-ok($x->key_cmp("monkey") == 1);
-ok($x->key_cmp("foo") == 0);
-ok($x->key_cmp("bar") == -1);
+is($x->key_cmp("monkey"), 1, "key_cmp");
+is($x->key cmp "monkey", -1, "key_cmp reversed");
+is($x->key_cmp("foo"), 0, "key_cmp");
+is($x->key_cmp("bar"), -1, "key_cmp");
+is($x->key cmp "bar", 1, "key_cmp reversed");
 
-$x->set_value(1);
-ok($x->value == 1);
-$x->set_value(2);
-ok($x->value == 2);
+is($x->set_value(1)->value, 1, "set_value->value");
+is($x->set_value(2)->value, 2, "set_value->value");
 
-# print STDERR "\n\x23 allocated $size = ", $x->_allocated, "\n";
-
-ok($y->child_count == 2, "level == 2");
+is($y->child_count, 2, "level == 2");
 
 ok(!defined $y->get_child(0), "!defined y->get_child(0)");
 
@@ -68,14 +57,14 @@ $y->set_child(0, $x);
 ok(defined $x, "x defined after set_child");
 
 my $z = $y->get_child(0);
-ok($z == $x);
+is($z, $x, "get_child");
 
 ok(defined $z, "z=get_child(0) defined");
 ok($z->isa("Tree::Node"), "isa");
 ok($z->child_count == $size, "z->child_count == size");
 
-ok(defined $x);
-ok($x->child_count);
+ok(defined $x, "defined");
+ok($x->child_count, "child_count");
 
 {
   local $TODO = "tie hash to set_child/get_child";
@@ -83,22 +72,25 @@ ok($x->child_count);
 }
 
 $z = Inherited->new(6);
-ok($z->isa("Tree::Node"));
+isa_ok($z, "Tree::Node");
 $z->set_key("zzz");
 for (0..5) { $z->set_child($_, $x); }
-ok($z->child_count == 6);
+is($z->child_count, 6, "child_count");
 $y->set_child(0, $z);
-ok($y->get_child(0) == $z);
-ok($y->get_child(0) != $x);
+is($y->get_child(0), $z, "get_child");
+isnt($y->get_child(0), $x, "get_child");
 
-undef $@ ;
-eval { $z->get_child(-1); };
-ok($@, "get_child out of bounds");
+throws_ok sub { $z->get_child(-1); },
+    qr/index out of bounds/,
+    "get_child out of bounds";
+
 ok(!defined $z->get_child_or_undef(-1), "get_child_or_undef");
 
-undef $@ ;
-eval { $z->get_child(6); };
-ok($@, "get_child out of bounds");
+throws_ok sub { $z->get_child(6); },
+    qr/index out of bounds/,
+    "get_child out of bounds";
+
 ok(!defined $z->get_child_or_undef(6), "get_child_or_undef");
 
+done_testing;
 
