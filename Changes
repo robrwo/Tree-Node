@@ -24,6 +24,8 @@ Revision history for Perl extension Tree::Node.
 
   - Moved developer tests to xt directory.
 
+  - Added more tests.
+
 0.09  2011-06-19
 
   - Bumped up version for upload to GitHub.

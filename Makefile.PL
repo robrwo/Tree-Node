@@ -10,6 +10,7 @@ WriteMakefile(
       'File::Copy' => 0,
       'File::Spec' => 0,
       'Test::Most' => 0,
+      'Test::Warnings' => 0,
     },
     ABSTRACT_FROM  => 'lib/Tree/Node.pm', # retrieve abstract from module
     AUTHOR         => 'Robert Rothenberg <rrwo at cpan.org>',

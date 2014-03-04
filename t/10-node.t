@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use Test::Most;
+use Test::Warnings;
 
 use_ok("Tree::Node", 0.10);
 
@@ -29,7 +30,10 @@ throws_ok(
 
 isnt($x->key, "foo", "key unchanged");
 
-ok($x->force_set_key("foo"), "force_set_key");
+warnings_like {
+    ok($x->force_set_key("foo"), "force_set_key");
+} qr/key is already set/;
+
 is($x->key, "foo", "key changed");
 
 is($x->child_count, $size, "level == size");
