@@ -66,11 +66,6 @@ ok($z->child_count == $size, "z->child_count == size");
 ok(defined $x, "defined");
 ok($x->child_count, "child_count");
 
-{
-  local $TODO = "tie hash to set_child/get_child";
-  ok(($y->get_child(1)||0) == $x);
-}
-
 $z = Inherited->new(6);
 isa_ok($z, "Tree::Node");
 $z->set_key("zzz");
