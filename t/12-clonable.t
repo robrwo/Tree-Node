@@ -23,7 +23,7 @@ ok(my $y = Tree::Node::Clonable->new(2), "new");
 isa_ok($y, "Tree::Node");
 ok($y->set_key("moo"), "set_key");
 
-is($x->set_value(1)->value, 1, "set_value->value");
+is($y->set_value(123)->value, 123, "set_value->value");
 
 ok($y->child_count == 2, "level == 2");
 
@@ -32,28 +32,26 @@ ok(!defined $y->get_child(0), "!defined y->get_child(0)");
 $y->set_child(0, $x);
 ok(defined $x, "x defined after set_child");
 
-my $obj = $y->serialize;
-is_deeply $obj,
- {
-  'children' => [
-    {
-      'children' => [],
-      'size' => 10,
-      'key' => 'poo',
-      'value' => 1
-    }
-  ],
-  'key' => 'moo',
-  'value' => undef,
-  'size' => 2,
- }, "serialize";
+$y->set_child(1, $x);
 
-note(explain $obj);
+is($y->get_child(0), $y->get_child(1), "same children");
 
-my $z = Tree::Node::Clonable->deserialize($obj);
+my $ser = $y->serialize;
+
+is($ser->{children}->[0], $ser->{children}->[1], "same children");
+
+note(explain $ser);
+
+my $z = Tree::Node::Clonable->deserialize($ser);
+
+isa_ok($z, 'Tree::Node::Clonable');
 
 is($z->key, $y->key, "key");
 is($z->value, $y->value, "value");
-is_deeply( $z->serialize, $obj, "deep comparison");
+
+is($z->get_child(0)->key, $y->get_child(0)->key, "child(0)->key");
+is($z->get_child(0)->value, $y->get_child(0)->value, "child(0)->value");
+
+is($z->get_child(0), $z->get_child(1), "same children");
 
 done_testing;

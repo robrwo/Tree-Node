@@ -8,7 +8,7 @@ use parent 'Tree::Node';
 our $VERSION = '0.10';
 
 use Carp;
-use Scalar::Util qw/ blessed /;
+use Scalar::Util qw/ blessed refaddr /;
 
 =head1 NAME
 
@@ -40,62 +40,71 @@ This class provides a serializable form of L<Tree::Node>.
 
 Returns a hash reference of the object.
 
-It assumes the children are L<Tree::Node::Clonable> objects,
-or that they have a C<serialize> method as per
-L<Object::Serializer>.
+It assumes the children are L<Tree::Node::Clonable> objects.
 
 =cut
 
 sub serialize {
-    my $self = shift;
+    my ($self, $seen) = @_;
 
-    return unless
-        $self && blessed($self) && $self->can('serialize');
+    return unless $self && blessed($self) && $self->isa(__PACKAGE__);
 
-    return {
-        key      => $self->key,
-        value    => $self->value,
-        size     => $self->child_count,
-        children => [ map { serialize($_) } $self->get_children ],
-    };
+    $seen //= {};
+
+    my $serialized = ( $seen->{refaddr $self} //=
+      {
+       key      => $self->key,
+       value    => $self->value,
+       size     => $self->child_count,
+       children => [ map { serialize($_, $seen) } $self->get_children ],
+      }
+    );
+
+    return $serialized;
 }
 
 =head2 deserialize
 
-  $node = Tree::Node::Clonable->deserialize( \%data );
+  $node = Tree::Node::Clonable->deserialize( \%data, @children );
 
 Deserializes a serialized node.
 
 =cut
 
 sub deserialize {
-    my ($class, $data) = @_;
+    my ($class, $data, $seen) = @_;
 
     croak "cannot deserialize"
-        unless (
-            $data &&
-            ref($data) eq 'HASH' &&
-            exists $data->{key} &&
-            exists $data->{value} &&
-            exists $data->{children} &&
-            ref($data->{children}) eq 'ARRAY'
-        );
+      unless (
+              $data &&
+              ref($data) eq 'HASH' &&
+              exists $data->{key} &&
+              exists $data->{value} &&
+              exists $data->{children} &&
+              ref($data->{children}) eq 'ARRAY'
+             );
 
-    my $size = $data->{size} // ( 1 + $#{ $data->{children} } );
-    my $self = __PACKAGE__->new($size);
+    $seen //= { };
+
+    return $seen->{refaddr $data}
+      if $seen->{refaddr $data};
+
+    my $size = $data->{size} // ( 1 + $#{$data->{children}} );
+    my $self = $class->new($size);
 
     $self->set_key($data->{key});
     $self->set_value($data->{value});
 
     for(my $i = 0; $i < $size; $i++) {
-        if (my $child = $data->{children}->[$i]) {
-            $self->set_child($i, __PACKAGE__->deserialize($child));
-        }
+      if (my $child = $data->{children}->[$i]) {
+        $self->set_child($i, $class->deserialize($child, $seen));
+      }
     }
+
+    $seen->{refaddr $data} = $self;
 
     return $self;
 }
-
 
 =head1 AUTHOR
 
