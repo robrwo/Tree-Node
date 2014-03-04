@@ -24,7 +24,7 @@ Tree::Node - Memory-efficient tree nodes in Perl
 
 =head1 REQUIREMENTS
 
-Perl 5.6.0 or newer is required. Only core modules are used.
+Perl 5.10.0 or newer is required.
 
 A C compiler to is required to build the module.  (There is no Pure-perl
 version because this package was written to overcome limitations of Perl.
@@ -149,26 +149,6 @@ routine.  To use numeric keys, for example:
     return ($self->key <=> $key);
   }
 
-B<Warning>: if you are also using the L</Procedural Interface>, then you
-should be aware that L</p_key_cmp> will not be inherited.  Instead, you
-should use something like the following:
-
-  {
-    no warnings 'redefine';
-
-    sub p_key_cmp {
-      my $ptr  = shift;
-      my $key  = shift;
-      return (p_key_key($ptr) <=> $key);
-    }
-
-    sub key_cmp {
-      my $self = shift;
-      my $key  = shift;
-      return (p_key_cmp($self->to_p_node), $key);
-    }
-  }
-
 =item set_value
 
   $node->set_value($value);
@@ -276,8 +256,6 @@ then you may be better off sticking with hashes.  If what you are doing
 requires a special structure that cannot be satisfied with hashes (even
 sorted hashes), or requires a very large number of nodes, then this module
 may be useful to you.
-
-Another alternative is to use the L</Procedural Interface>.
 
 =for readme stop
 

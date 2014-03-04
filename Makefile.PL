@@ -6,10 +6,12 @@ WriteMakefile(
     NAME           => 'Tree::Node',
     VERSION_FROM   => 'lib/Tree/Node.pm',
     PREREQ_PM      => {
-      'parent'     => 0,
-      'File::Copy' => 0,
-      'File::Spec' => 0,
-      'Test::Most' => 0,
+      'parent'         => 0,
+      'Carp'           => 0,
+      'File::Copy'     => 0,
+      'File::Spec'     => 0,
+      'Scalar::Util'   => 0,
+      'Test::Most'     => 0,
       'Test::Warnings' => 0,
     },
     ABSTRACT_FROM  => 'lib/Tree/Node.pm', # retrieve abstract from module

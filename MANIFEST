@@ -12,6 +12,7 @@ t/00-compile.t
 t/10-node.t
 t/11-node-base.t
 lib/Tree/Node.pm
+lib/Tree/Node/Clonable.pm
 TreeNode.c
 TreeNode.h
 typemap
