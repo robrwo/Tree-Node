@@ -2,7 +2,7 @@
 
 package Inherited;
 
-use base 'Tree::Node';
+use parent 'Tree::Node';
 
 sub key_cmp {
   my $self = shift;
