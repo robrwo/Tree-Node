@@ -238,6 +238,8 @@ key_cmp(n, k)
   PROTOTYPE: $$
   CODE:
     Node* self = SV2NODE(n);
+    if (k==&PL_sv_undef)
+      croak("cannot compare a key with undef");
     RETVAL = key_cmp(self, k);
   OUTPUT:
     RETVAL

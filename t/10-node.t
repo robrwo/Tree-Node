@@ -40,13 +40,9 @@ ok($x->key_cmp("monkey") == -1);
 ok($x->key_cmp("foo") == 0);
 ok($x->key_cmp("bar") == 1);
 
-{
-    local $TODO = "Gives warning instead";
-
-    dies_ok {
-        ok($x->key_cmp(undef) == 1);
-    } "key_cmp with undef key dies";
-}
+dies_ok {
+    ok($x->key_cmp(undef) == 1);
+} "key_cmp with undef key dies";
 
 dies_ok {
     ok($x->key_cmp() == 1);

@@ -2,110 +2,113 @@ Revision history for Perl extension Tree::Node.
 
 0.10
 
-        - The set_key, force_set_key, set_value, set_child, and
-          add_children methods are chainable.
+  [Possible Incompatabile Changes]
+  - Calling the key_cmp method with undef dies.
 
-        - Renamed get_child_or_undef to get_child_maybe. Original
-          method exists as an alias, but is deprecated.
+  - Removed exprimental procedural interface.
 
-        - Corrected typos in Changes
+  [Other Changes]
+  - The set_key, force_set_key, set_value, set_child, and
+    add_children methods are chainable.
 
-        - Reformatted Changes to CPAN::Changes::Spec
+  - Renamed get_child_or_undef to get_child_maybe. Original
+    method exists as an alias, but is deprecated.
 
-        - Removed Build.PL.
+  - Corrected typos in Changes
 
-        - Misc cleanup of git repository.
+  - Reformatted Changes to CPAN::Changes::Spec
 
-        - Moved developer tests to xt directory.
+  - Removed Build.PL.
+
+  - Misc cleanup of git repository.
+
+  - Moved developer tests to xt directory.
 
 0.09  2011-06-19
 
-        - Bumped up version for upload to GitHub.
+  - Bumped up version for upload to GitHub.
 
 0.08  2007-07-20
 
-	- Minor tweaks and typo corrections.
+  - Minor tweaks and typo corrections.
 
 0.07  2007-07-13
 
-	- Distro is no longer signed (due to Module:Signature issues).
+  - Distro is no longer signed (due to Module:Signature issues).
 
-	- Fixed error with reading undefined key or value.
+  - Fixed error with reading undefined key or value.
 
-	- Added force_set_key mode to change key.
+  - Added force_set_key mode to change key.
 
-	- Test for leaks in procedural interface.
+  - Test for leaks in procedural interface.
 
-	- Improved pointer cast.
+  - Improved pointer cast.
 
-	- Minor changes to Build.PL
+  - Minor changes to Build.PL
 
 0.06  2005-07-28
 
-	- Added Build.PL.
+  - Added Build.PL.
 
-	- Added additional tests ("kwalitee"-related).
+  - Added additional tests ("kwalitee"-related).
 
-	- Uses Perl malloc macros instead of system malloc.
+  - Uses Perl malloc macros instead of system malloc.
 
-	- Updated documentation regarding memory usage.
+  - Updated documentation regarding memory usage.
 
-	- Added exports of utility functions.
+  - Added exports of utility functions.
 
-	- Added experimental procedural interface.
+  - Added experimental procedural interface.
 
-	- Added to_p_node method to get pointer.
+  - Added to_p_node method to get pointer.
 
 0.051  2005-07-22
 
-	- Fixed bad SIGNATURE file.
+  - Fixed bad SIGNATURE file.
 
 0.05  2007-07-22
 
-	- Removed _rotate_children method.
+  - Removed _rotate_children method.
 
-	- Renamed SIZE macro to NODESIZE.
+  - Renamed SIZE macro to NODESIZE.
 
-	- Fixed bug where node size allocation was too small!
+  - Fixed bug where node size allocation was too small!
 
-	- Renamed _increment_child_count to add_children.
+  - Renamed _increment_child_count to add_children.
 
-	- Add_children accepts a list of children to add (so it can add
-	  multiple children).
+  - Add_children accepts a list of children to add (so it can add
+    multiple children).
 
-	- Added get_children method to return an array of children.
+  - Added get_children method to return an array of children.
 
-	- Readonly flag is set (this was disabled in v0.04).
+  - Readonly flag is set (this was disabled in v0.04).
 
-	- Documentation updated accordingly.
+  - Documentation updated accordingly.
 
-	- Added developer tests.
+  - Added developer tests.
 
 0.04  2005-07-15
 
-	- Added _increment_child_count and _rotate_children methods.
+  - Added _increment_child_count and _rotate_children methods.
 
-	- Updated documentation.
+  - Updated documentation.
 
-	- Removed XSLoader from dependencies, since CPANPLUS
-          complains.
+  - Removed XSLoader from dependencies, since CPANPLUS
+    complains.
 
 0.03  2005-07-02
 
-	- Fixed issue with SIGNATURE file.
+  - Fixed issue with SIGNATURE file.
 
-	- More updates to documentation.
+  - More updates to documentation.
 
 0.02  2005-06-30
 
-	- Minor updates to documentation.
+  - Minor updates to documentation.
 
-	- Fixed missing include in TreeNode.c.
+  - Fixed missing include in TreeNode.c.
 
 0.01  2005-06-29
 
-	- Original version; created by h2xs 1.23 with options
-		-n Tree::Node -v 0.01 -b 5.6.0
-
-	- Branched off from experimental Algorithm::SkipList::Node.
+  - Branched off from experimental Algorithm::SkipList::Node.
 
