@@ -27,6 +27,11 @@ my $build = Module::Build->new
      dist_author        => 'Robert Rothenberg <rrwo at cpan.org>',
      sign               => 0,
      create_readme      => ($Module::Build::VERSION >= 0.2702),
+     meta_merge => {
+         resources => {
+             repository => 'https://github.com/robrwo/Tree-Node'
+         }
+     },
 );
 
 $build->create_build_script;
