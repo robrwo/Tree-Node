@@ -17,6 +17,17 @@ WriteMakefile(
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
     INC               => '-I.', # e.g., '-I. -I/usr/include/other'
     OBJECT            => '$(O_FILES)',
+    (eval { ExtUtils::MakeMaker->VERSION(6.46) } ? (META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources => {
+            repository => {
+                type => 'git',
+                url  => 'https://github.com/robrwo/Tree-Node.git',
+                web  => 'https://github.com/robrwo/Tree-Node',
+            },
+        }})
+     : ()
+    ),
 );
 if  (eval {require ExtUtils::Constant; 1}) {
   my @names = (qw());
